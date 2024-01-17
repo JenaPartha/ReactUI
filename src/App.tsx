@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function App() {
+const App: React.FC = () => {
+  const [data, setData] = useState<string>('');
+
+  useEffect(() => {
+    // Make a GET request to the Node.js backend
+    axios.get('http://localhost:3001/api/users')
+      .then((response: any) => {
+        setData(response.data[0].username);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>React TypeScript App</h1>
+      <p>Data from Node.js backend: {data}</p>
     </div>
   );
-}
+};
 
 export default App;
